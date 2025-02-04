@@ -50,10 +50,38 @@ let healthFacilities = [
   { name: "Mji Wa Huruma Dispensary", lat: -1.25, lng: 36.8 },
 ];
 
+// let redIcon = L.AwesomeMarkers.icon({
+//   icon: "hospital", // You can use different FontAwesome icons
+//   markerColor: "red", // Change color (blue, green, red, orange, purple, etc.)
+//   prefix: "fa",
+// });
+
+let redMarker = L.icon({
+  iconUrl: "./images/hospital_icon.png", // Change to your preferred icon URL
+  iconSize: [32, 32], // Size of the icon
+  iconAnchor: [16, 32], // Anchor point
+  popupAnchor: [0, -32], // Popup position
+});
+
+function createPopup(healthFacilities) {
+  const randomImage = `https://picsum.photos/seed/${healthFacilities.name}/50/50`; // Generates a unique image for each hospital
+  return `
+        <div style="
+            text-align: center;
+            font-family: Arial, sans-serif;
+            padding: 10px;
+            width: 200px;">
+            <h3 style="margin: 5px 0; color: #007ea7;">${healthFacilities.name}</h3>
+            <img src="${randomImage}" alt="${healthFacilities.name}" style="width:50px; height:50px border-radius: 5px; margin-bottom: 5px;">
+            <p style="font-size: 14px; color: #333;">A leading healthcare provider in Nairobi.</p>
+        </div>
+    `;
+}
+
 healthFacilities.forEach(function (facility) {
-  let marker = L.marker([facility.lat, facility.lng]).bindPopup(
-    "<b>" + facility.name + "</b>"
-  );
+  let marker = L.marker([facility.lat, facility.lng], {
+    icon: redMarker,
+  }).bindPopup(createPopup(facility), { maxWidth: 220 });
   markers.addLayer(marker);
 });
 
