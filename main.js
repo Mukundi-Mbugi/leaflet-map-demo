@@ -103,7 +103,6 @@ L.control.layers(baseMaps).addTo(map);
 
 
 //Add facilities to map
-
 healthFacilities.forEach(function (facility) {
   let marker = L.marker([facility.lat, facility.lng], {
     icon: redMarker,
