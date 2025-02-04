@@ -38,3 +38,20 @@ h1, h2 {
     margin: 20px 0;
     border-radius: 10px;
 }
+.leaflet-control-layers {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+#downloadButton {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    z-index: 1000;
+}

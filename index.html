@@ -22,6 +22,9 @@
       crossorigin=""
     />
 
+    <!-- Leaflet draw -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw-src.css" />
+
     <!-- Marker cluster css -->
     <link
       rel="stylesheet"
@@ -58,8 +61,11 @@
       <div class="section">
         <h2>Health Facilities in Nairobi</h2>
         <div id="map"></div>
+        <!-- <button id="downloadButton">Download Map</button> -->
       </div>
     </div>
     <script src="main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw-src.js"></script>
+    <script src="https://unpkg.com/file-saver/dist/FileSaver.min.js"></script> <!-- To save files locally -->
   </body>
 </html>

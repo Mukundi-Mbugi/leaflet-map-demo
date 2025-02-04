@@ -1,9 +1,9 @@
 console.log("Hello from js");
 
-const map = L.map("map").setView([-1.286389, 36.817223], 12);
-L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-  attribution: "&copy; OpenStreetMap contributors",
-}).addTo(map);
+const map = L.map("map",{ drawControl: true }).setView([-1.286389, 36.817223], 12);
+// L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+//   attribution: "&copy; OpenStreetMap contributors",
+// }).addTo(map);
 
 let markers = L.markerClusterGroup();
 let healthFacilities = [
@@ -50,19 +50,15 @@ let healthFacilities = [
   { name: "Mji Wa Huruma Dispensary", lat: -1.25, lng: 36.8 },
 ];
 
-// let redIcon = L.AwesomeMarkers.icon({
-//   icon: "hospital", // You can use different FontAwesome icons
-//   markerColor: "red", // Change color (blue, green, red, orange, purple, etc.)
-//   prefix: "fa",
-// });
-
+//Custom Icon
 let redMarker = L.icon({
-  iconUrl: "./images/hospital_icon.png", // Change to your preferred icon URL
+  iconUrl: "./images/hospital_icon.png", 
   iconSize: [32, 32], // Size of the icon
   iconAnchor: [16, 32], // Anchor point
   popupAnchor: [0, -32], // Popup position
 });
 
+//Custom Popup
 function createPopup(healthFacilities) {
   const randomImage = `https://picsum.photos/seed/${healthFacilities.name}/50/50`; // Generates a unique image for each hospital
   return `
@@ -78,11 +74,43 @@ function createPopup(healthFacilities) {
     `;
 }
 
+// Base maps
+let osmLayer = L.tileLayer(
+  "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+  {
+    attribution:
+      'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  }
+).addTo(map);
+
+let satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+});
+
+
+let terrainLayer = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+	maxZoom: 17,
+	attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+});
+
+const baseMaps = {
+  "OpenStreetMap": osmLayer,
+  "Satellite": satelliteLayer,
+  "Terrain": terrainLayer,
+};
+
+L.control.layers(baseMaps).addTo(map);
+
+
+//Add facilities to map
+
 healthFacilities.forEach(function (facility) {
   let marker = L.marker([facility.lat, facility.lng], {
     icon: redMarker,
   }).bindPopup(createPopup(facility), { maxWidth: 220 });
   markers.addLayer(marker);
 });
-
 map.addLayer(markers);
+
+
+
